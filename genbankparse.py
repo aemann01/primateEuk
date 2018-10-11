@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 '''
-For primate euk project, parse multi genbank file, pull metadata for euk ref tree build 
-Use: python genbankparse.py myfile.gb
+For primate euk project, parse multi genbank file, pull metadata for euk ref tree build, merge with mapping file with same accession ids (mapping file column to merge on must have header "TAXID") 
+Use: python genbankparse.py myfile.gb map.txt
 '''
 
 import sys
@@ -39,6 +39,12 @@ df = pd.DataFrame(data)
 df.columns = ['accession', 'organism', 'isolation_source', 'host', 'country']
 df.to_csv("metadata.txt", sep="\t", index=False)
 
+meta = pd.read_csv("metadata.txt", sep="\t")
+mapping = pd.read_csv(sys.argv[2], sep="\t")
+
+merged = pd.DataFrame.merge(mapping, meta, how="left", left_on="TAXID", right_on="accession")
+
+merged.to_csv("merged_mapping.txt", sep="\t", index=False)
 
 
 
