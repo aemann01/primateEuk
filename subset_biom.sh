@@ -4,7 +4,7 @@
 
 TARGET=$1
 
-filter_taxa_from_otu_table.py -i swarm_otus.wtax.final.biom -o $TARGET.biom -p $TARGET
+filter_taxa_from_otu_table.py -i swarm/swarm_otus.wtax.final.biom -o $TARGET.biom -p $TARGET
 filter_samples_from_otu_table.py -i $TARGET.biom -o $TARGET.fix -n 10
 rm $TARGET.biom
 mv $TARGET.fix $TARGET.biom
