@@ -1,35 +1,61 @@
 library("phyloseq");packageVersion("phyloseq")
+library(ggplot2)
 library(ape)
-otu <- read.table("biom_iodamoeba.txt", sep="\t", header=T, row.names=1)
+
+otu <- read.table("swarm/swarm_otus.wtax.final.nohash.txt", sep="\t", header=T, row.names=1)
 otu <- as.matrix(otu)
-map <- as.matrix(read.table("map.txt", sep="\t", header=T, row.names=1))
-tre <- read.tree("RAxML_bipartitions.iodamoeba.tre")
+#only display individuals who have N or more reads assigned to a particular node
+#otu[otu<50] <- 0
+#remove rows with only zeros
+otu <- otu[which(rowSums(otu) > 0),] 
+#write out to be used outside script
+temp <- as.data.frame(otu)
+write.table(temp, file="abundance_filtered.otus.txt", quote=F, sep="\t")
+rm(temp)
+
+#read in mapping file, set as sample data type
+map <- as.data.frame(read.table("map.txt", sep="\t", header=T, row.names=1))
+map <- sample_data(map)
+
+#iodamoeba tree
+tre <- read.tree("RAxML_bipartitions.dedup.tre")
 tre <- root(tre, outgroup="JN635740.1")
 otutable <- otu_table(otu, taxa_are_rows=T)
 physeq <- phyloseq(otutable)
 physeq <- merge_phyloseq(physeq, tre, map)
 
 pdf("iodamoeba_phyloseq_tree.pdf")
-plot_tree(physeq, color="Sample", ladderize="right", label.tips="taxa_names", nodelabf=nodeplotboot(50,50))
+plot_tree(physeq, color="Species", ladderize="left", label.tips="taxa_names", base.spacing=0.03, nodelabf=nodeplotblank)
 dev.off()
 
-#now make phylotree of the entamoeba stuff
-library("phyloseq");packageVersion("phyloseq")
-library(ape)
-library(ggplot2)
-otu <- read.table("biom.txt", sep="\t", header=T, row.names=1)
-otu <- as.matrix(otu)
-map <- as.data.frame(read.table("map.txt", sep="\t", header=T, row.names=1))
-tre <- read.tree("../RAxML_bipartitions.entamoeba.trim.tre")
-otutable <- otu_table(otu, taxa_are_rows=T)
-map <- sample_data(map)
+#entamoeba tree
+tre <- read.tree("RAxML_bipartitions.entamoeba.trim.tre")
+tre <- root(tre, outgroup="AB550910.1")
 physeq <- phyloseq(otutable)
 physeq <- merge_phyloseq(physeq, tre, map)
 
 pdf("entamoeba_phyloseq_tree_shapes.pdf")
-plot_tree(physeq, color="Phyl_Group", shape="Genus", ladderize="right", label.tips="taxa_names", nodelabf=nodeplotboot(50,50)) + scale_shape_manual(values=1:13)
+plot_tree(physeq, color="Phyl_Group", shape="Genus", ladderize="left", label.tips="taxa_names", base.spacing=0.03, nodelabf=nodeplotboot(lowcthresh=70)) + scale_shape_manual(values=c(3,9,10,11,12))
 dev.off()
 
+#entamoeba tree just colored
 pdf("entamoeba_phyloseq_tree.pdf")
-plot_tree(physeq, color="Genus", ladderize="right", label.tips="taxa_names", nodelabf=nodeplotboot(50,50))
+plot_tree(physeq, color="Species", ladderize="left", base.spacing=0.05, nodelabf=nodeplotblank, justify="left")
+dev.off()
+
+#nematode tree
+#for nematodes, allow a min of 10 reads per sample
+otu <- read.table("swarm/swarm_otus.wtax.final.nohash.txt", sep="\t", header=T, row.names=1)
+otu <- as.matrix(otu)
+#only display individuals who have N or more reads assigned to a particular node
+otu[otu<10] <- 0
+#remove rows with only zeros
+otu <- otu[which(rowSums(otu) > 0),] 
+
+tre <- read.tree("RAxML_bipartitions.nematode.trim.tre")
+physeq <- phyloseq(otutable)
+physeq <- merge_phyloseq(physeq, tre, map)
+
+pdf("nematode_phyloseq_tree.pdf")
+plot_tree(physeq, color="Phyl_Group", shape="Genus", ladderize="left", label.tips="taxa_names", nodelabf=nodeplotboot(lowcthresh=70)) + scale_shape_manual(values=c(2,3,5,7,9,10,11,12))
 dev.off()
