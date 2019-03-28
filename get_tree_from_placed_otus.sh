@@ -23,4 +23,3 @@ cd archamoeba_raxml/
 raxmlHPC-PTHREADS-SSE3 -T 4 -m GTRCAT -c 25 -p 31415 -x 20398 -d -f a -N 100 -s fortree.ent.trimal.fa -n entamoeba.tre
 raxmlHPC-PTHREADS-SSE3 -T 4 -m GTRCAT -c 25 -p 31415 -x 20398 -d -f a -N 100 -s fortree.ioda.trimal.fa -n iodamoeba.tre
 
-
