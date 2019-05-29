@@ -12,10 +12,8 @@ mkdir trim
 echo "Trimming adapter and primer sequences"
 #trim off any residual adapter sequence (should be pretty low)
 ls *R1* | sed 's/_R1_001.fastq.gz//' | parallel -j6 'cutadapt -a AATGATACGGCGACCACCGAGATCTACACGCT -A AGCGTGTAGATCTCGGTGGTCGCCGTATCATT --trim-n -m 50 -o trim/{}.R1.trim.fastq -p trim/{}.R2.trim.fastq  {}_R1_001.fastq.gz {}_R2_001.fastq.gz 1> trim/{}.adapt.trim.info'
-#trim primers, forward is truncated, reverse is in middle of read
-ls *R1* | sed 's/_R1_001.fastq.gz//' | parallel -j6 'cutadapt -a YGCGGTAATTCC...TYRATCAAGAACGAAAGT  -g ACTTTCGTTCTTGATYRA  -o trim/{}.R1.trimprimer.fastq -p trim/{}.R2.trimprimer.fastq  trim/{}.R1.trim.fastq trim/{}.R2.trim.fastq 1> trim/{}.primer.trim.info'
-#problems trimming reverse primer, do a hard lop of 46 bases to account for primer sequence
-ls *R1* | sed 's/_R1_001.fastq.gz//' | parallel -j6 'cutadapt -u 46  -o trim/{}.R2.trimprimer.fastq  trim/{}.R2.trim.fastq 1> trim/{}.revprimer.trim.info'
+#trim primers
+ls *R1* | sed 's/_R1_001.fastq.gz//' | parallel -j6 'cutadapt -a CYGCGGTAATTCCAGCTC  -g CRAAGAYGATYAGATACCRT  -o trim/{}.R1.trimprimer.fastq -p trim/{}.R2.trimprimer.fastq  trim/{}.R1.trim.fastq trim/{}.R2.trim.fastq 1> trim/{}.primer.trim.info'
 
 echo "Paired end read merging"
 mkdir pear
