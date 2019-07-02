@@ -9,6 +9,19 @@ pdf("taxonomy_barchart.pdf")
 ggplot(datmelt, aes(fill=datmelt$taxonomy, x=datmelt$variable, y=datmelt$value)) + geom_bar(stat="identity", position="fill") + theme_classic()
 dev.off()
 
+#generate histograms of each sample representing log post filtered read count and proportion of known gut taxa to add to composition figure
+#log counts post filter
+counts <- read.table("table_for_taxonomy_barchart_ordered.txt", sep="\t", header=T)
+pdf("log_counts_for_taxplot.pdf")
+ggplot(counts, aes(x=counts$SampleID, y=log(counts$PostDietaryFilter))) + geom_bar(stat="identity") + coord_flip() + scale_y_continuous(limits=c(0,12), breaks = seq(0, 12, by = 2)) + theme_classic()
+dev.off()
+#prop expected gut 
+pdf("propgut_for_taxplot.pdf")
+ggplot(counts, aes(x=counts$SampleID, y=counts$PropGut)) + geom_bar(stat="identity") + coord_flip() + scale_x_discrete(limits=counts$SampleID) + theme_classic()
+dev.off()
+
+ggplot(counts, aes(x=counts$SampleID, y=counts$PropGut)) + geom_bar(stat="identity") + scale_x_discrete(limits=counts$SampleID) + theme_classic()
+
 #for environmental source
 dat <- read.table("environ_source_forBarchart.txt", sep="\t", header=T)
 datmelt <- melt(dat)
@@ -40,7 +53,7 @@ dev.off()
 # Ptr1
 # Ptr14
 # Ptr11
-# Ptr14
+# Ptr13
 # Jb1
 # Jb13
 # jb15
@@ -63,11 +76,11 @@ dev.off()
 # RT2017
 # BWC2063
 # BWC2115
-# RC2068
+# RC2036
 # RC2096
-# rc2071
-# rc2068
-# rc2098
+# RC2071
+# RC2068
+# RC2098
 # PVPet
 # PVLou
 # PVAbb
