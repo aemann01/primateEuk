@@ -18,6 +18,15 @@ pdf("braycurtis_bdiv_plot.pdf")
 ggplot(dat, aes(x=merge$V2, y=merge$V3, color=merge$Phyl_Group)) + geom_point(aes(shape=merge$Genus)) + theme_classic() + scale_shape_manual(values=1:13) + xlim(-0.4, 0.7) + ylim(-0.4,0.7) + xlab("PC1 (6.47%)") + ylab("PC2 (5.75%)") + coord_fixed()
 dev.off()
 
+#Aitchison distance
+library(robCompositions)
+dat <- read.table("swarm/test.txt")
+dat.t <- as.data.frame(lapply(dat, as.numeric))
+xia <- impRZilr(as.data.frame(dat.t),method="lm")
+
+
+
+
 #pcoa plots of weighted unifrac looking at just amoebozoa, fungi, or nematodes
 # filter_taxa_from_otu_table.py -i swarm/swarm_otus.wtax.final.biom -o swarm/swarm_otus.wtax.amoebozoa.biom -p Amoebozoa
 # filter_taxa_from_otu_table.py -i swarm/swarm_otus.wtax.final.biom -o swarm/swarm_otus.wtax.nematodes.biom -p Nematoda
