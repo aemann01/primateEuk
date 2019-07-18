@@ -13,14 +13,17 @@ dev.off()
 #log counts post filter
 counts <- read.table("table_for_taxonomy_barchart_ordered.txt", sep="\t", header=T)
 pdf("log_counts_for_taxplot.pdf")
-ggplot(counts, aes(x=counts$SampleID, y=log(counts$PostDietaryFilter))) + geom_bar(stat="identity") + coord_flip() + scale_y_continuous(limits=c(0,12), breaks = seq(0, 12, by = 2)) + theme_classic()
+ggplot(counts, aes(x=counts$SampleID, y=log(counts$PostDietaryFilter, 10))) + geom_bar(stat="identity") + coord_flip() + scale_y_continuous(limits=c(0,5), breaks = seq(0, 5, by = 2)) + theme_classic()
 dev.off()
+#log counts raw reads
+pdf("log_raw_for_taxplot.pdf")
+ggplot(counts, aes(x=counts$SampleID, y=log(counts$Raw, 10))) + geom_bar(stat="identity") + coord_flip() + scale_y_continuous(limits=c(0,5), breaks = seq(0, 5, by = 2)) + theme_classic()
+dev.off()
+
 #prop expected gut 
 pdf("propgut_for_taxplot.pdf")
 ggplot(counts, aes(x=counts$SampleID, y=counts$PropGut)) + geom_bar(stat="identity") + coord_flip() + scale_x_discrete(limits=counts$SampleID) + theme_classic()
 dev.off()
-
-ggplot(counts, aes(x=counts$SampleID, y=counts$PropGut)) + geom_bar(stat="identity") + scale_x_discrete(limits=counts$SampleID) + theme_classic()
 
 #for environmental source
 dat <- read.table("environ_source_forBarchart.txt", sep="\t", header=T)
