@@ -6,7 +6,7 @@ Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, M
 ## Figures scripts
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | additional_supp_figures.r     | R code for Bray-Curtis dissimilarity PCoA, Aitchison distance PCA, Taxonomy specific weighted Unifrac PCoA |
 | aitchison_distance.sh      | Bash script to generate Aitchison Biplot      | 
 | bac_v_euk_correlation.r | R code for bacterial and eukaryotic alpha diversity correlation (not phylogenetically constrained)      |
