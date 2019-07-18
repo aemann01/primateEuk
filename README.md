@@ -22,7 +22,7 @@ Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, M
 ## Other scripts
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | adonis.r      | R code adonis test |
 | combos.py      | Silly python script, calculates the number of possible combinations of a read n bases long      | 
 | distance_matrix_calc.py | Python script, generates distance matrix from aligned fasta      |
@@ -41,7 +41,7 @@ Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, M
 ## Swarm
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | swarm_otus.wtax.file.txt     | OTU table with taxonomy after filtering |
 | swarm_otus.wtax.txt | Full OTU table with taxonomy unfiltered      |
 | map.txt      | Metadata file     | 
