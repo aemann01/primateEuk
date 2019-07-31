@@ -1,0 +1,1 @@
+mafft --reorder --auto ref.fa > refalign.fa

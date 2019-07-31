@@ -2,8 +2,8 @@
 # Modified from EukRef HTES and curation pipeline
 # Required programs: usearch, mafft, trimal, raxml, QIIME 1.9
 
-REFS=/parfreylab/mann/primateEuk/eukref_trees/archamoeba_reference/reference.fa
-SEQS=/parfreylab/mann/primateEuk/eukref_trees/archamoeba_placement/denovo.fa
+REFS=/Users/mann/github/primateEuk/new_iodamoeba_tree/ref.fa
+SEQS=/Users/mann/github/primateEuk/new_iodamoeba_tree/iodamoeba.fa
 
 ######################
 #Reference tree build
@@ -34,9 +34,8 @@ raxmlHPC-PTHREADS-SSE3 -T 4 -m GTRCAT -c 25 -e 0.001 -p 31415 -f a -N 100 -x 029
 ######################
 #align your (unaligned) sequences to your curated reference alignment (not the trimmed one)
 echo "Aligning sequences to reference alignment"
-cat collapse.ids | sort | uniq | while read line; do grep -w $line $SEQS -A 1 ; done > collapse.fa
-align_seqs.py -i $SEQS -t refalign.fa -o htes_aligned -p 10 # low PID to ensure all OTUs are incorporated in the placement tree
-cat htes_aligned/collapse_aligned.fasta refalign.fa > queryalign_plus_refalign.fa
+align_seqs.py -i $SEQS -t refalign.fa -o htes_aligned -p 10 
+cat htes_aligned/iodamoeba_aligned.fasta refalign.fa > queryalign_plus_refalign.fa
 #build epa tree
 echo "EPA tree building"
 raxmlHPC-PTHREADS-SSE3 -f v -G 0.2 -m GTRCAT -n epa.tre -s queryalign_plus_refalign.fa -t RAxML_bestTree.ref.tre -T 4
@@ -44,9 +43,12 @@ raxmlHPC-PTHREADS-SSE3 -f v -G 0.2 -m GTRCAT -n epa.tre -s queryalign_plus_refal
 #clean up tree so you can read into figtree
 sed 's/QUERY___//g' RAxML_labelledTree.epa.tre | sed 's/\[I[0-9]*\]//g' > RAxML_placementTree.epa.tre
 
-#######################
-#Constraint tree build
-#######################
-raxmlHPC-PTHREADS-SSE3 -f a -N 100 -G 0.2 -m GTRCAT -n fullepa.tre -s queryalign_plus_refalign.fa -g RAxML_bestTree.ref.tre -T 4 -x 25734 -p 25793
+#get alignment for network, hard trim
+filter_fasta.py -f queryalign_plus_refalign.fa -s for_network.ids -o for_network.align.fa
+trimal -in for_network.align.fa -out for_network.trimal.fa -gt 0.9 -st 0.001
+seqmagick convert --output-format nexus --alphabet dna for_network.trimal.fa for_network.trimal.nex
+grep "denovo" test.log | awk '{print $1}' | sort | uniq > wanted.ids # what reads are making it into the file?
+cat wanted.ids | while read line; do grep -w $line ../swarm/swarm_otus.wtax.final.txt ; done > iodamoeba_traits.txt
 
-#now pass to phyloseq_tree.r
+
+
