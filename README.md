@@ -1,10 +1,12 @@
 # Biodiversity of protists and nematodes in the wild non-human primate gut microbiome
 Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, Martin Kowalewski, Anthony Di Fiore, Andrés Link, Tony L. Goldberg, Stacey Tecot, Andrea L. Baden, Andres Gomez, Michelle L. Sauther, Frank P. Cuozzo, Gillian A.O. Rice, Nathaniel J. Dominy, Rebecca Stumpf, Rebecca J. Lewis, Larissa Swedell, Katherine Amato, Laura Wegener Parfrey
 
+[Click here for PERMANOVA and Mantel tests as described in the paper](https://github.com/FloMazel/Primates_eukaryome_diversity_Analysis)
+
 ## Figures scripts
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | additional_supp_figures.r     | R code for Bray-Curtis dissimilarity PCoA, Aitchison distance PCA, Taxonomy specific weighted Unifrac PCoA |
 | aitchison_distance.sh      | Bash script to generate Aitchison Biplot      | 
 | bac_v_euk_correlation.r | R code for bacterial and eukaryotic alpha diversity correlation (not phylogenetically constrained)      |
@@ -20,7 +22,7 @@ Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, M
 ## Other scripts
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | adonis.r      | R code adonis test |
 | combos.py      | Silly python script, calculates the number of possible combinations of a read n bases long      | 
 | distance_matrix_calc.py | Python script, generates distance matrix from aligned fasta      |
@@ -39,7 +41,7 @@ Allison E. Mann, Florent Mazel, Matthew A. Lemay, Evan Morien1, Vincent Billy, M
 ## Swarm
 
 | File        | Description           |
-| ------------- |:-------------:|
+| ------------- |:-------------|
 | swarm_otus.wtax.file.txt     | OTU table with taxonomy after filtering |
 | swarm_otus.wtax.txt | Full OTU table with taxonomy unfiltered      |
 | map.txt      | Metadata file     | 
