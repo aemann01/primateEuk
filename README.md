@@ -3,6 +3,8 @@
 
 [Click here for PERMANOVA and Mantel tests as described in the paper](https://github.com/FloMazel/Primates_eukaryome_diversity_Analysis)
 
+[Download raw sequencing files](https://www.ebi.ac.uk/ena/data/view/PRJEB32407)
+
 ## Figures scripts
 
 | File        | Description           |
